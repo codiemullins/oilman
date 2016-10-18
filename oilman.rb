@@ -1,12 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'fileutils'
-require 'open3'
-require 'dotenv'
-Dotenv.load
-
-USERNAME = ENV['USERNAME']
-SERVER = ENV['SERVER']
+require './lib/oilman.rb'
 
 mount = "#{Dir.pwd}/sql_backups"
 conn_str = "//#{USERNAME}@#{SERVER}/SQL-Server_Backups"
