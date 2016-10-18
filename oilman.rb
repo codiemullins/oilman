@@ -2,12 +2,30 @@
 
 require './lib/oilman.rb'
 
-path = "#{Dir.pwd}/sql_backups"
+require 'benchmark'
 
-mounter = Mounter.new USERNAME, SERVER, "/SQL-Server_Backups"
-status = mounter.mount path
+PATH = "#{Dir.pwd}/sql_backups"
 
-if status.success?
-  puts `ls #{path}`
+MOUNTER = Mounter.new USERNAME, SERVER, "/SQL-Server_Backups"
+
+def mount
+  status = MOUNTER.mount PATH
 end
-# mounter.unmount
+
+def list
+  entries = Dir.entries(PATH).reject { |entry| entry == "." || entry == ".." }.map do |entry|
+    file = "#{PATH}/#{entry}"
+    {
+      entry: entry,
+      directory: File.directory?(file),
+      size: File.size(file)
+    }
+  end
+  entries.select { |f| f[:directory] }
+  # mounter.unmount
+end
+
+Benchmark.bm do |x|
+  x.report("mount:") { mount }
+  x.report("list:") { list }
+end
