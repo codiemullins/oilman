@@ -1,12 +1,14 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    awesome_print (1.7.0)
     dotenv (2.1.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   dotenv
 
 BUNDLED WITH
