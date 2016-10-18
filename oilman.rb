@@ -2,18 +2,12 @@
 
 require './lib/oilman.rb'
 
-mount = "#{Dir.pwd}/sql_backups"
-conn_str = "//#{USERNAME}@#{SERVER}/SQL-Server_Backups"
+path = "#{Dir.pwd}/sql_backups"
 
-# Create mount folder
-FileUtils.mkdir_p mount
+mounter = Mounter.new USERNAME, SERVER, "/SQL-Server_Backups"
+status = mounter.mount path
 
-stdout, stderr, pid = Open3.capture3 "df"
-puts stdout.include? conn_str
-
-stdout, stderr, pid = Open3.capture3 "mount -t smbfs #{conn_str} #{mount}"
-if stderr
-  puts "Unable to mount server, unexpected error!"
-else
-  puts "stdout", stdout, "stderr", stderr, "pid", pid
+if status.success?
+  puts `ls #{path}`
 end
+# mounter.unmount
