@@ -5,10 +5,12 @@ require 'fileutils'
 require 'open3'
 require 'dotenv'
 require 'awesome_print'
+require 'highline'
 
 require 'oilman/mounter'
-
 Dotenv.load
+
+CLI = HighLine.new
 
 MOUNT_USER = ENV['MOUNT_USER']
 MOUNT_SERVER = ENV['MOUNT_SERVER']
