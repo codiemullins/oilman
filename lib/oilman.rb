@@ -8,6 +8,9 @@ require 'awesome_print'
 require 'highline'
 
 require 'oilman/mounter'
+require 'oilman/file_info'
+require 'oilman/file_list'
+
 Dotenv.load
 
 CLI = HighLine.new
