@@ -18,22 +18,27 @@ def mount
   status = MOUNTER.mount PATH
 end
 
-def list filter = ""
-  entries = Dir.entries(PATH).reject { |entry| entry == "." || entry == ".." }
+def file_list file
+  name = file.split("/").last
+  return if name == "." || name == ".."
+  directory = File.directory? file
+
+  {
+    name: name,
+    directory: directory,
+    size: File.size(file)
+  }
+end
+
+def list path = PATH, filter = ""
+  Dir.entries(path)
     .select { |entry| filter == "" ? true : entry =~ /#{filter}/i }
-    .map do |entry|
-      file = "#{PATH}/#{entry}"
-      {
-        entry: entry,
-        directory: File.directory?(file),
-        size: File.size(file)
-      }
-    end
-  entries
+    .map { |entry| file_list "#{path}/#{entry}" }
+    .compact
 end
 
 def reduce_list filter = ""
-  reduced_list = list filter
+  reduced_list = list PATH, filter
 
   if reduced_list.length > 15
     CLI.say "There are too many backup options... currently have #{reduced_list.length}. Filter the options some..."
@@ -52,14 +57,14 @@ puts ""
 choice = CLI.choose do |menu|
   menu.prompt = "Please choose your backup:  "
   backup_options.each do |option|
-    menu.choice(option[:entry]) do
+    menu.choice(option[:name]) do
       CLI.say "===="
       if option[:directory]
-        CLI.say "You've chosen a directory... I don't support that yet"
+        ap list "#{PATH}/#{option[:name]}"
       else
         CLI.say "You've chosen a file... I don't support that yet"
       end
-      option[:entry]
+      option[:name]
     end
   end
 end
