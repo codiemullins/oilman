@@ -10,6 +10,7 @@ require 'highline'
 require 'oilman/mounter'
 require 'oilman/file_info'
 require 'oilman/file_list'
+require 'oilman/restore'
 
 Dotenv.load
 
@@ -21,3 +22,4 @@ MOUNT_SERVER = ENV['MOUNT_SERVER']
 DB_USER = ENV['DB_USER']
 DB_PASS = ENV['DB_PASS']
 DB_HOST = ENV['DB_HOST']
+DB_TIMEOUT = ENV['DB_TIMEOUT'] || 600
