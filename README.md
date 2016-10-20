@@ -12,6 +12,14 @@ oilman makes it painless and easy to restore a DB from the command line. It allo
 4. From root directory of oilman project run `bin/oilman`. Optionally, passing a search string for filtering the list of available `.bak` files.
 5. Follow-on screen prompts and options.
 
+### Symbolic Link
+
+To install the CLI `oilman` globally execute the command below from the root directory of oilman
+
+```bash
+ln -s "$PWD/bin/oilman" /usr/local/bin/oilman
+```
+
 ## Sample `.env` file
 
 ```
