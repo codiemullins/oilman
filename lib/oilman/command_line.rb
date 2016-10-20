@@ -24,7 +24,6 @@ class CommandLine
   end
 
   def options
-    puts path
     FileList.new(filter, path).reduce
   end
 

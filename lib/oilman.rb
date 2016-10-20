@@ -15,7 +15,9 @@ require 'oilman/mounter'
 require 'oilman/printer'
 require 'oilman/restore'
 
-Dotenv.load
+root_dir = File.expand_path('../', lib)
+
+Dotenv.load("#{root_dir}/.env")
 
 CLI = HighLine.new
 
@@ -23,7 +25,7 @@ VERBOSE = ENV['VERBOSE'] || false
 
 MOUNT_USER = ENV['MOUNT_USER']
 MOUNT_SERVER = ENV['MOUNT_SERVER']
-MOUNT_PATH = "#{Dir.pwd}/sql_backups"
+MOUNT_PATH = "#{root_dir}/sql_backups"
 
 DB_USER = ENV['DB_USER']
 DB_PASS = ENV['DB_PASS']
