@@ -70,6 +70,7 @@ ALTER DATABASE {DBNAME} SET CONCAT_NULL_YIELDS_NULL ON
 ALTER DATABASE {DBNAME} SET QUOTED_IDENTIFIER ON
 '
 
+
 DECLARE @SC1 VARCHAR(MAX)
 DECLARE @SC2 VARCHAR(MAX)
 SET @SC1 = REPLACE(@DBOPTIONS, '{DBNAME}', @DBNAME)
@@ -77,14 +78,14 @@ SET @SC1 = REPLACE(@DBOPTIONS, '{DBNAME}', @DBNAME)
 EXECUTE (@SC2)
 SQL
 
-puts "Restoring DB to #{database_name}..."
+Printer.print "Restoring DB to #{database_name}..."
 
 client = TinyTds::Client.new username: DB_USER, password: DB_PASS, host: DB_HOST, timeout: DB_TIMEOUT
 sql.split("GO").each do |s|
-  puts s
+  Printer.debug s
   client.execute(s).do
   sleep 1
   # ap result.map { |r| r['name'] }
 end
 
-puts "Restoration of DB is now complete. Happy Coding!"
+Printer.print "Restoration of DB is now complete. Happy Coding!"
