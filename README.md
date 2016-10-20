@@ -1,67 +1,27 @@
 # oilman
-Easily restore a DB from the command line
 
+oilman makes it painless and easy to restore a DB from the command line. It allows its user to search and choose a backup file. It will then take care of the boring stuff: setting DB to single-user mode, copying log files to the target DB, and then preparing the DB with the appropriate SQL config settings.
 
-## Sample SQL to create DB backup
+**WARNING**: If you currently have the SQL Backup NAS directory mounted to your Mac, oilman will unmount it and restore it to `oilman/sql_backups`
 
-Substitute `database_name` for the name of the database and `path_to_bak_file` for the path to store the `.bak` file on the NAS.
+## Getting started
 
-```sql
-USE {database_name};
-GO
-BACKUP DATABASE {database_name}
-TO DISK = 'X:\{path_to_bak_file}'
-   WITH NOINIT;
-GO
+1. Clone this repo to your local Mac.
+2. Install gems `bundle install`.
+3. Create a `.env` file in the root of the oilman project folder. Specify options (See *Sample .env file* below)
+4. From root directory of oilman project run `bin/oilman`. Optionally, passing a search string for filtering the list of available `.bak` files.
+5. Follow-on screen prompts and options.
+
+## Sample `.env` file
+
 ```
+MOUNT_USER="GUEST:"
+MOUNT_SERVER="192.168.14.15"
 
-## Sample SQL for DB Restore
+DB_USER="sql_admin"
+DB_PASS="password"
+DB_HOST="127.0.0.1"
+DB_NAME="database"
 
-Substitute `database_name` for the name of the database and `path_to_bak_file` for the path to the `.bak` file on the NAS.
-
-```sql
-use master
-go
-
-ALTER DATABASE [{database_name}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-
-set deadlock_priority high
-
-USE master
-RESTORE DATABASE [{database_name}]
-   FROM DISK = 'X:\{path_to_bak_file}'
-GO
-
-EXEC [{database_name}].dbo.sp_changedbowner @loginame = N'gas_plant', @map = false
-go
-
-DECLARE @DBNAME VARCHAR(100)
-SET @DBNAME = '{database_name}'
-
-DECLARE @TRNLOGFILE VARCHAR(100)
-SET @TRNLOGFILE = 'WDO_log'
-
-DECLARE @DBOPTIONS VARCHAR(MAX)
-SET @DBOPTIONS = '
-ALTER DATABASE {DBNAME} SET MULTI_USER
-
-ALTER DATABASE {DBNAME} SET RECOVERY SIMPLE
-
-USE {DBNAME}
-DBCC SHRINKFILE({TRNLOGFILE}, 2)
-
-ALTER DATABASE {DBNAME} SET ANSI_NULLS ON
-ALTER DATABASE {DBNAME} SET ANSI_PADDING ON
-ALTER DATABASE {DBNAME} SET ANSI_WARNINGS ON
-ALTER DATABASE {DBNAME} SET ARITHABORT ON
-ALTER DATABASE {DBNAME} SET CONCAT_NULL_YIELDS_NULL ON
-ALTER DATABASE {DBNAME} SET QUOTED_IDENTIFIER ON
-'
-
-
-DECLARE @SC1 VARCHAR(MAX)
-DECLARE @SC2 VARCHAR(MAX)
-SET @SC1 = REPLACE(@DBOPTIONS, '{DBNAME}', @DBNAME)
---SET @SC2 = REPLACE(@SC1, '{TRNLOGFILE}', @TRNLOGFILE)
-EXECUTE (@SC2)
+VERBOSE="true"
 ```
