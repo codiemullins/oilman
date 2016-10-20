@@ -10,8 +10,13 @@ class Restore
   def go
     Printer.print "Beginning restore of #{database}... This can take awhile..."
     Printer.print "Go for a short walk or get some coffee..."
-    restore_sql.split("GO").each do |s|
+
+    commands = restore_sql.split("GO")
+    total_commands = commands.length
+
+    commands.each_with_index do |s, idx|
       Printer.debug s
+      Printer.print "Executing Command #{idx + 1} of #{total_commands}"
       client.execute(s).do
       sleep 1
     end
