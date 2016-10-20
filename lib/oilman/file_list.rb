@@ -1,7 +1,7 @@
 class FileList
   attr_reader :path, :filter, :expand_path
 
-  def initialize filter = "", path = PATH, expand_path = false
+  def initialize filter = "", path = "", expand_path = false
     @path = path
     @filter = filter
     @expand_path = expand_path

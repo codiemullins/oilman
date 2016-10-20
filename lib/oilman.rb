@@ -8,9 +8,11 @@ require 'awesome_print'
 require 'highline'
 require 'tiny_tds'
 
-require 'oilman/mounter'
+require 'oilman/command_line'
 require 'oilman/file_info'
 require 'oilman/file_list'
+require 'oilman/mounter'
+require 'oilman/printer'
 require 'oilman/restore'
 
 Dotenv.load
@@ -21,6 +23,7 @@ VERBOSE = ENV['VERBOSE'] || false
 
 MOUNT_USER = ENV['MOUNT_USER']
 MOUNT_SERVER = ENV['MOUNT_SERVER']
+MOUNT_PATH = "#{Dir.pwd}/sql_backups"
 
 DB_USER = ENV['DB_USER']
 DB_PASS = ENV['DB_PASS']

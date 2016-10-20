@@ -1,14 +1,16 @@
 class CommandLine
-  attr_accessor :filter
+  attr_reader :filter, :path
 
   def initialize filter = ""
-    path = "#{Dir.pwd}/sql_backups"
+    @filter = filter
+    @path = MOUNT_PATH
     Mounter.new(MOUNT_USER, MOUNT_SERVER, "/SQL-Server_Backups").mount path
   end
 
   def run
     Printer.print ""
     choice = select_backup { |file| handle_choice file }.gsub '/', '\\'
+    Printer.debug "User selected: #{choice}"
     Restore.new(CONN, choice).go
   end
 
@@ -22,13 +24,14 @@ class CommandLine
   end
 
   def options
-    FileList.new(filter).reduce
+    puts path
+    FileList.new(filter, path).reduce
   end
 
   def handle_choice file
     CLI.say "===="
     if file.directory
-      select_backup(FileList.new("", "#{PATH}/#{file.name}", true).list) { |file| handle_choice file }
+      select_backup(FileList.new("", "#{path}/#{file.name}", true).list) { |file| handle_choice file }
     else
       file.name
     end
