@@ -17,9 +17,16 @@ class Restore
     commands.each_with_index do |s, idx|
       Printer.debug s
       message = "Executing Command #{idx + 1} of #{total_commands}"
-      message = "#{message}... restore command, this takes the longest by far..." if idx + 1 == 2
+      message = "#{message}... <%= color('restore command, this takes the longest by far...', BOLD) %>" if idx + 1 == 2
       Printer.print message
-      client.execute(s).do
+      begin
+        client.execute(s).do
+      rescue TinyTds::Error => e
+        client.execute("ALTER DATABASE #{database} SET MULTI_USER").do
+        puts e.message
+        puts "Verify services such as god, gora, and rails console aren't running"
+        puts e.backtrace.inspect
+      end
       sleep 1
     end
 
