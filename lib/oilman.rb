@@ -8,6 +8,7 @@ require 'awesome_print'
 require 'highline'
 require 'tiny_tds'
 
+require 'oilman/backup'
 require 'oilman/command_line'
 require 'oilman/file_info'
 require 'oilman/file_list'
