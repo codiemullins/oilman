@@ -2,8 +2,9 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-gem "dotenv"
 gem "awesome_print"
-gem "tiny_tds"
+gem "dotenv"
 gem "highline"
+gem "pry"
+gem "tiny_tds"
 gem "thor"
