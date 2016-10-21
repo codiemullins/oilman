@@ -16,7 +16,9 @@ class Restore
 
     commands.each_with_index do |s, idx|
       Printer.debug s
-      Printer.print "Executing Command #{idx + 1} of #{total_commands}"
+      message = "Executing Command #{idx + 1} of #{total_commands}"
+      message = "#{message}... restore command, this takes the longest by far..." if idx + 1 == 2
+      Printer.print message
       client.execute(s).do
       sleep 1
     end
