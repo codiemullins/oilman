@@ -1,12 +1,13 @@
 lib = File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'fileutils'
-require 'open3'
-require 'dotenv'
 require 'awesome_print'
+require 'dotenv'
+require 'fileutils'
 require 'highline'
+require 'open3'
 require 'tiny_tds'
+require 'thor'
 
 require 'oilman/backup'
 require 'oilman/command_line'
