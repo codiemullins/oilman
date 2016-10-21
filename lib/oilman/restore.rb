@@ -25,7 +25,7 @@ class Restore
         client.execute("ALTER DATABASE #{database} SET MULTI_USER").do
         puts e.message
         puts "Verify services such as god, gora, and rails console aren't running"
-        puts e.backtrace.inspect
+        puts e.backtrace
       end
       sleep 1
     end
