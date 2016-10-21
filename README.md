@@ -31,3 +31,7 @@ DB_PASS="password"
 DB_HOST="127.0.0.1"
 DB_NAME="database"
 ```
+
+## Sample Output
+
+![sample-output](https://i.imgsafe.org/a8a146c522.png)
