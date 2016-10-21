@@ -3,21 +3,20 @@ class CommandLine
 
   def initialize filter = ""
     @filter = filter
-    @path = MOUNT_PATH
-    Mounter.new(MOUNT_USER, MOUNT_SERVER, "/SQL-Server_Backups").mount path
+    @path = Settings[:mount][:path]
+    Mounter.new(Settings[:mount][:user], Settings[:mount][:server], "/SQL-Server_Backups").mount path
   end
 
   def run
-    Printer.print ""
     choice = select_backup { |file| handle_choice file }.gsub '/', '\\'
     Printer.debug "User selected: #{choice}"
-    Restore.new(CONN, choice).go
+    Restore.new(Settings[:db], choice).go
   end
 
 
   def select_backup list = nil
     list ||= options
-    CLI.choose do |menu|
+    choose do |menu|
       menu.prompt = "Please choose your backup:  "
       list.each { |file| menu.choice(file.name) { yield file } }
     end
@@ -28,7 +27,7 @@ class CommandLine
   end
 
   def handle_choice file
-    CLI.say "===="
+    say "===="
     if file.directory
       select_backup(FileList.new("", "#{path}/#{file.name}", true).list) { |file| handle_choice file }
     else

@@ -9,7 +9,7 @@ oilman makes it painless and easy to restore a DB from the command line. It allo
 1. Clone this repo to your local Mac.
 2. Install gems `bundle install`.
 3. Create a `.env` file in the root of the oilman project folder. Specify options (See *Sample .env file* below)
-4. From root directory of oilman project run `bin/oilman`. Optionally, passing a search string for filtering the list of available `.bak` files.
+4. From root directory of oilman project run `bin/oilman restore`. Optionally, passing a search string, `oilman restore --search="foo"`, for filtering the list of available `.bak` files.
 5. Follow-on screen prompts and options.
 
 ### Symbolic Link
@@ -30,6 +30,8 @@ DB_USER="sql_admin"
 DB_PASS="password"
 DB_HOST="127.0.0.1"
 DB_NAME="database"
-
-VERBOSE="true"
 ```
+
+## Sample Output
+
+![sample-output](https://i.imgsafe.org/a8a146c522.png)

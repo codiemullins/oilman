@@ -11,8 +11,8 @@ class FileList
     reduced_list = list
 
     if reduced_list.length > 15
-      CLI.say "There are too many backup options... currently have #{reduced_list.length}. Filter the options some..."
-      filter = CLI.ask "Search:  "
+      say "There are too many backup options... currently have #{reduced_list.length}. Filter the options some..."
+      filter = ask "Search:  "
       FileList.new(filter, path, expand_path).list
     else
       reduced_list

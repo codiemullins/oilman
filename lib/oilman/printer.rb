@@ -1,11 +1,11 @@
 class Printer
 
   def self.print msg
-    puts(msg)
+    say msg
   end
 
   def self.debug msg
-    puts(msg) if VERBOSE
+    say(msg) if Settings[:verbose]
   end
 
 end

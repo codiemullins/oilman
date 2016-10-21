@@ -1,14 +1,18 @@
-lib = File.expand_path('../../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+LIB = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(LIB) unless $LOAD_PATH.include?(LIB)
 
-require 'fileutils'
-require 'open3'
-require 'dotenv'
 require 'awesome_print'
-require 'highline'
+require 'dotenv'
+require 'fileutils'
+require 'highline/import'
+require 'open3'
 require 'tiny_tds'
+require 'thor'
 
 require 'oilman/backup'
+require 'oilman/backup_detail'
+require 'oilman/backup_file'
+require 'oilman/cli'
 require 'oilman/command_line'
 require 'oilman/file_info'
 require 'oilman/file_list'
@@ -16,28 +20,44 @@ require 'oilman/mounter'
 require 'oilman/printer'
 require 'oilman/restore'
 
-root_dir = File.expand_path('../', lib)
+class Oilman
+  def self.root
+    @_root ||= File.expand_path('../', LIB)
+  end
 
-Dotenv.load("#{root_dir}/.env")
+  def self.connection_options
+    {
+      username: ENV['DB_USER'],
+      password: ENV['DB_PASS'],
+      host: ENV['DB_HOST'],
+      timeout: ENV['DB_TIMEOUT'] || 6000,
+      database: ENV['DB_NAME'],
+    }
+  end
 
-CLI = HighLine.new
+  def self.client
+    @_client ||= TinyTds::Client.new connection_options
+  end
 
-VERBOSE = ENV['VERBOSE'] || false
+  def self.execute sql
+    client.execute(sql).do
+  end
+end
 
-MOUNT_USER = ENV['MOUNT_USER']
-MOUNT_SERVER = ENV['MOUNT_SERVER']
-MOUNT_PATH = "#{root_dir}/sql_backups"
+Dotenv.load("#{Oilman.root}/.env")
 
-DB_USER = ENV['DB_USER']
-DB_PASS = ENV['DB_PASS']
-DB_HOST = ENV['DB_HOST']
-DB_NAME = ENV['DB_NAME']
-DB_TIMEOUT = ENV['DB_TIMEOUT'] || 600
-
-CONN = {
-  username: DB_USER,
-  password: DB_PASS,
-  host: DB_HOST,
-  timeout: DB_TIMEOUT,
-  database: DB_NAME
+Settings = {
+  verbose: false,
+  mount: {
+    user: ENV['MOUNT_USER'],
+    server: ENV['MOUNT_SERVER'],
+    path: "#{Oilman.root}/sql_backups",
+  },
+  db: {
+    username: ENV['DB_USER'],
+    password: ENV['DB_PASS'],
+    host: ENV['DB_HOST'],
+    timeout: ENV['DB_TIMEOUT'] || 6000,
+    database: ENV['DB_NAME'],
+  }
 }
