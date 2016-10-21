@@ -10,6 +10,6 @@ class CLI < Thor
 
   desc "backup DATABASE", "Backup specified DATABASE"
   def backup database
-    puts Backup.new(database).go
+    Backup.new(database).go
   end
 end

@@ -33,7 +33,7 @@ Settings = {
     username: ENV['DB_USER'],
     password: ENV['DB_PASS'],
     host: ENV['DB_HOST'],
-    timeout: ENV['DB_TIMEOUT'] || 600,
+    timeout: ENV['DB_TIMEOUT'] || 6000,
     database: ENV['DB_NAME'],
   }
 }
