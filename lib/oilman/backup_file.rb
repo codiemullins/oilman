@@ -7,6 +7,6 @@ class BackupFile
   end
 
   def log?
-    physical_name.include? '_log'
+    physical_name.include? '.ldf'
   end
 end

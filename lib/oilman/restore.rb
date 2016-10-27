@@ -1,8 +1,9 @@
 class Restore
-  attr_reader :database, :backup, :database_log_name
+  attr_reader :database, :backup, :database_log_name, :user
 
   def initialize connection_options, backup
     @database = connection_options[:database]
+    @user = connection_options[:username]
     @backup = BackupDetail.new(backup)
     @commands = sql.split("GO")
     @length = @commands.length
@@ -34,10 +35,14 @@ class Restore
   def sql
     IO.read("#{Oilman.root}/lib/sql/restore.sql") % {
       database: database,
+      user: user,
       timestamp: Time.now.strftime('%Y%m%d%H%M%S'),
       backup: backup.name,
       source_mdf: backup.mdf.logical_name,
-      source_ldf: backup.ldf.logical_name
+      source_ldf: backup.ldf.logical_name,
+      data_dir: Settings[:db][:data_dir],
+      log_dir: Settings[:db][:log_dir],
+      remote_path: Settings[:mount][:remote_path],
     }
   end
 

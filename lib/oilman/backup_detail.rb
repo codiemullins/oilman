@@ -20,8 +20,10 @@ class BackupDetail
 
     sql = <<-SQL
       USE master;
-      RESTORE FILELISTONLY FROM DISK = 'X:\\#{name}' WITH FILE = 1
+      RESTORE FILELISTONLY FROM DISK = '#{Settings[:mount][:remote_path]}\\#{name}' WITH FILE = 1
     SQL
+
+    Printer.debug sql
 
     result = Oilman.client.execute(sql)
     @_files = result.map { |r| BackupFile.new r }
