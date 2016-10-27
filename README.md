@@ -9,16 +9,11 @@ oilman makes it painless and easy to backup and restore a DB from the command li
 1. Clone this repo to your local Mac.
 2. Install gems `bundle install`.
 3. Create an `.env` file in the root of the oilman project folder. Specify options, example `.env` file below.
-
-### Symbolic Link
-
-To install the CLI `oilman` globally execute the command below from the root directory of oilman
-
-```bash
-ln -s "$PWD/bin/oilman" /usr/local/bin/oilman
-```
+4. You can optionally install the `oilman` CLI globally. To do so, execute this command from the root directory of oilman `ln -s "$PWD/bin/oilman" /usr/local/bin/oilman`.
 
 ### Sample `.env` file
+
+**Note**: The `DB_HOST` is used for backup and restore to determine which DB server to connect to. The `DB_NAME` is the target database which a restore should be performed on.
 
 ```
 MOUNT_USER="GUEST:"
@@ -34,7 +29,7 @@ DB_NAME="database"
 
 Oilman makes it easy to create a DB backup, run the command `oilman backup {database_name}`.
 
-** Sample Output**
+**Sample Output**
 
 ```bash
 $ oilman backup foundation_clone
@@ -48,7 +43,7 @@ This will create a `.bak` file in the root SQL Backup NAS directory with the for
 
 Oilman performs DB restores onto the database specified in the `.env` file. Using the command `oilman restore --search="foundation"`, it will search for `.bak` files matching the search string, in this instance foundation, and return directories and `.bak` files which contain the search term in their name.
 
-** Sample Output**
+**Sample Output**
 
 ```bash
 $ oilman restore --search="foundation"
