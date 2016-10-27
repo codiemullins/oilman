@@ -25,6 +25,18 @@ DB_HOST="127.0.0.1"
 DB_NAME="database"
 ```
 
+## oilman help
+
+```
+Commands:
+  oilman backup DATABASE  # Backup specified DATABASE
+  oilman help [COMMAND]   # Describe available commands or one specific command
+  oilman restore          # restore database .bak file to your target DB
+
+Options:
+  [--verbose], [--no-verbose]
+```
+
 ## Creating DB Backup
 
 Oilman makes it easy to create a DB backup, run the command `oilman backup {database_name}`.
