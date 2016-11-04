@@ -3,7 +3,7 @@ class Restore
 
   def initialize connection_options, backup
     @database = connection_options[:database]
-    @user = connection_options[:username]
+    @user = connection_options[:username] == 'sql_admin' ? 'gas_plant' : connection_options[:username]
     @backup = BackupDetail.new(backup)
     @commands = sql.split("GO")
     @length = @commands.length
