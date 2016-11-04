@@ -51,7 +51,8 @@ Settings = {
   mount: {
     user: ENV['MOUNT_USER'],
     server: ENV['MOUNT_SERVER'],
-    path: "#{Oilman.root}/sql_backups",
+    remote_path: ENV['MOUNT_PATH'] || 'X:',
+    local_path: "#{Oilman.root}/sql_backups",
   },
   db: {
     username: ENV['DB_USER'],
@@ -59,5 +60,7 @@ Settings = {
     host: ENV['DB_HOST'],
     timeout: ENV['DB_TIMEOUT'] || 6000,
     database: ENV['DB_NAME'],
+    data_dir: ENV['DB_DATA_DIR'] || 'D:\\MSSQL\\Data',
+    log_dir: ENV['DB_LOG_DIR'] || 'E:\\MSSQL\\TRNLogs',
   }
 }

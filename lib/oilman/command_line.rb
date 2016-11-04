@@ -3,7 +3,7 @@ class CommandLine
 
   def initialize filter = ""
     @filter = filter
-    @path = Settings[:mount][:path]
+    @path = Settings[:mount][:local_path]
     Mounter.new(Settings[:mount][:user], Settings[:mount][:server], "/SQL-Server_Backups").mount path
   end
 

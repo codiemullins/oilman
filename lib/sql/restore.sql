@@ -12,14 +12,14 @@ SET deadlock_priority high
 
 USE master;
 RESTORE DATABASE [%{database}]
-  FROM DISK = 'X:\\%{backup}'
+  FROM DISK = '%{remote_path}\%{backup}'
   WITH FILE = 1,
-  MOVE '%{source_mdf}' TO 'D:\\MSSQL\\Data\\%{database}_%{timestamp}.mdf',
-  MOVE '%{source_ldf}' TO 'E:\\MSSQL\\TRNLogs\\%{database}_%{timestamp}_log.ldf',
+  MOVE '%{source_mdf}' TO '%{data_dir}\%{database}_%{timestamp}.mdf',
+  MOVE '%{source_ldf}' TO '%{log_dir}\%{database}_%{timestamp}_log.ldf',
   NOUNLOAD, REPLACE, STATS = 5
 GO
 
-EXEC [%{database}].dbo.sp_changedbowner @loginame = N'gas_plant', @map = false
+EXEC [%{database}].dbo.sp_changedbowner @loginame = N'%{user}', @map = false
 GO
 
 ALTER DATABASE %{database} SET MULTI_USER
