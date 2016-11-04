@@ -1,6 +1,11 @@
 USE master
 GO
 
+SET deadlock_priority high
+
+ALTER DATABASE[%{database}] SET MULTI_USER
+GO
+
 ALTER DATABASE [%{database}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 
 SET deadlock_priority high

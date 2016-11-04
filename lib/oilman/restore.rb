@@ -44,7 +44,7 @@ class Restore
   def message idx
     count = idx + 1
     str = "Executing Command #{count} of #{@length}"
-    str = "#{str}... <%= color('restore command, this takes the longest by far...', BOLD) %>" if count == 2
+    str = "#{str}... <%= color('restore command, this takes the longest by far...', BOLD) %>" if count == 3
     str
   end
 
