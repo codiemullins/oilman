@@ -8,43 +8,80 @@ oilman makes it painless and easy to backup and restore a DB from the command li
 
 1. Clone this repo to your local Mac.
 2. Install gems `bundle install`.
-3. Create an `.env` file in the root of the oilman project folder. Specify options, example `.env` file below.
+3. Create an `.env` file in the root of the oilman project folder. Specify options, example `config.json` file below.
 4. You can optionally install the `oilman` CLI globally. To do so, execute this command from the root directory of oilman `ln -s "$PWD/bin/oilman" /usr/local/bin/oilman`.
 
-### Sample `.env` file
+### Sample `config.json` file
 
-**Note**: The `DB_HOST` is used for backup and restore to determine which DB server to connect to. The `DB_NAME` is the target database which a restore should be performed on.
+The config file uses named keys to support multiple hosts. See sample below for example of 3 hosts `sql4`, `we12`, `we70`.
 
+```json
+{
+  "mount_user": "GUEST:",
+  "mount_server": "192.168.14.15",
+
+  "sql4": {
+    "username": "we\\codie.mullins",
+    "password": "****",
+    "host": "192.168.14.60",
+    "database": "codie_db1"
+  },
+
+  "we12": {
+    "username": "sql_admin",
+    "password": "****",
+    "host": "192.168.14.12",
+    "database": "codie_db"
+  },
+
+  "we70": {
+    "username": "sql_admin",
+    "password": "***",
+    "host": "192.168.14.70",
+    "database": "codie_db"
+  }
+}
 ```
-MOUNT_USER="GUEST:"
-MOUNT_SERVER="192.168.14.15"
 
-DB_USER="sql_admin"
-DB_PASS="password"
-DB_HOST="127.0.0.1"
-DB_NAME="database"
+### Sample `config.json` for Vagrant
+
+```json
+{
+  "mount_user": "GUEST:",
+  "mount_server": "192.168.14.15",
+  "mount_path": "\\\\VBOXSVR\\vagrant\\sql_backups",
+
+  "vagrant": {
+    "username": "sa",
+    "password": "#SAPassword!",
+    "host": "192.168.50.4",
+    "database": "dev1",
+    "data_dir": "C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\DATA",
+    "log_dir": "C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\DATA"
+  }
+}
 ```
 
 ## oilman help
 
 ```
 Commands:
-  oilman backup DATABASE  # Backup specified DATABASE
-  oilman help [COMMAND]   # Describe available commands or one specific command
-  oilman restore          # restore database .bak file to your target DB
+  oilman backup SERVER DATABASE  # Backup specified DATABASE on SERVER (from config.json)
+  oilman help [COMMAND]          # Describe available commands or one specific command
+  oilman restore SERVER          # restore database .bak file to your chosen SERVER target DB
 
 Options:
-  [--verbose], [--no-verbose]
+  [--verbose], [--no-verbose]  
 ```
 
 ## Creating DB Backup
 
-Oilman makes it easy to create a DB backup, run the command `oilman backup {database_name}`.
+Oilman makes it easy to create a DB backup, run the command `oilman backup {server_name} {database_name}` to backup `database_name` from `server_name` where `server_name` exists in `config.json`.
 
 **Sample Output**
 
 ```bash
-$ oilman backup foundation_clone
+$ oilman backup we12 foundation_clone
 Backing up database foundation_clone, this can take upto 30 minutes...
 $
 ```
@@ -53,12 +90,12 @@ This will create a `.bak` file in the root SQL Backup NAS directory with the for
 
 ## Restoring DB
 
-Oilman performs DB restores onto the database specified in the `.env` file. Using the command `oilman restore --search="foundation"`, it will search for `.bak` files matching the search string, in this instance foundation, and return directories and `.bak` files which contain the search term in their name.
+Oilman performs DB restores onto the database for the chosen server specified in the `config.json` file. Using the command `oilman restore --search="foundation"`, it will search for `.bak` files matching the search string, in this instance foundation, and return directories and `.bak` files which contain the search term in their name.
 
 **Sample Output**
 
 ```bash
-$ oilman restore --search="foundation"
+$ oilman restore we12 --search="foundation"
 1. Foundation
 2. 20161026162142_foundation_clone_oilman_tmp.bak
 3. 20161027084021_foundation_clone_oilman_tmp.bak
@@ -76,5 +113,5 @@ Restore is complete! 😁 😆 Happy Coding!
 
 ## TODO
 
-- [ ] Support multiple database servers
-- [ ] Support multiple restore target databases
+- [X] Support multiple database servers
+- [X] Support multiple restore target databases

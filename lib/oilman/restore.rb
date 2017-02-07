@@ -1,10 +1,11 @@
 class Restore
-  attr_reader :database, :backup, :database_log_name, :user
+  attr_reader :server, :database, :backup, :database_log_name, :user
 
-  def initialize connection_options, backup
-    @database = connection_options[:database]
-    @user = connection_options[:username] == 'sql_admin' ? 'gas_plant' : connection_options[:username]
-    @backup = BackupDetail.new(backup)
+  def initialize server, backup
+    @server = server
+    @database = server.database
+    @user = server.username == 'sql_admin' ? 'gas_plant' : server.username
+    @backup = BackupDetail.new server, backup
     @commands = sql.split("GO")
     @length = @commands.length
   end
@@ -17,7 +18,7 @@ class Restore
       begin
         Printer.debug command
         Printer.print message(idx)
-        Oilman.execute command
+        server.execute command
       rescue TinyTds::Error => e
         set_multi_user
         Printer.print e.message
@@ -40,8 +41,8 @@ class Restore
       backup: backup.name,
       source_mdf: backup.mdf.logical_name,
       source_ldf: backup.ldf.logical_name,
-      data_dir: Settings[:db][:data_dir],
-      log_dir: Settings[:db][:log_dir],
+      data_dir: server.data_dir,
+      log_dir: server.log_dir,
       remote_path: Settings[:mount][:remote_path],
     }
   end
@@ -54,6 +55,6 @@ class Restore
   end
 
   def set_multi_user
-    Oilman.execute "ALTER DATABASE #{database} SET MULTI_USER"
+    server.execute "ALTER DATABASE #{database} SET MULTI_USER"
   end
 end

@@ -1,7 +1,8 @@
 class BackupDetail
-  attr_reader :name
+  attr_reader :server, :name
 
-  def initialize name
+  def initialize server, name
+    @server = server
     @name = name.gsub "/", "\\"
   end
 
@@ -25,7 +26,7 @@ class BackupDetail
 
     Printer.debug sql
 
-    result = Oilman.client.execute(sql)
+    result = server.client.execute sql
     @_files = result.map { |r| BackupFile.new r }
   end
 end

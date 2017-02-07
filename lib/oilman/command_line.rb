@@ -1,7 +1,8 @@
 class CommandLine
-  attr_reader :filter, :path
+  attr_reader :server, :filter, :path
 
-  def initialize filter = ""
+  def initialize server, filter = ""
+    @server = server
     @filter = filter
     @path = Settings[:mount][:local_path]
     Mounter.new(Settings[:mount][:user], Settings[:mount][:server], "/SQL-Server_Backups").mount path
@@ -10,7 +11,7 @@ class CommandLine
   def run
     choice = select_backup { |file| handle_choice file }.gsub '/', '\\'
     Printer.debug "User selected: #{choice}"
-    Restore.new(Settings[:db], choice).go
+    Restore.new(server, choice).go
   end
 
 
