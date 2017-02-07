@@ -64,7 +64,7 @@ The config file uses named keys to support multiple hosts. See sample below for 
 
 ## oilman help
 
-```
+```bash
 Commands:
   oilman backup SERVER DATABASE  # Backup specified DATABASE on SERVER (from config.json)
   oilman help [COMMAND]          # Describe available commands or one specific command
