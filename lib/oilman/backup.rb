@@ -12,7 +12,7 @@ class Backup
     Printer.print "Backing up database #{database}, this can take upto 30 minutes..."
     sql.split("GO").each_with_index do |s, idx|
       Printer.debug s
-      server.execute(s).do
+      server.execute s
     end
   end
 
