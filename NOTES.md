@@ -1,3 +1,17 @@
+## Retrieving list of files available in SQL Backups
+
+```ruby
+# Mount SQL Backups directory
+path = Settings[:mount][:local_path]
+Mounter.new(Settings[:mount][:user], Settings[:mount][:server], "/SQL-Server_Backups").mount path
+
+# Recurse over it to output list of all files (along with their relative path to oilman directory)
+directories = Dir.glob('sql_backups/**').select { |f| File.directory? f }
+
+all_files = (directories + ["sql_backups"]).map do |dir|
+  Dir.glob("#{dir}/**").select { |f| !File.directory?(f) }
+end.sort
+```
 
 ## Sample SQL to create DB backup
 

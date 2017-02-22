@@ -14,6 +14,8 @@ class Backup
       Printer.debug s
       server.execute s
     end
+
+    puts file_name
   end
 
   def sql
