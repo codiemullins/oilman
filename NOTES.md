@@ -10,7 +10,7 @@ directories = Dir.glob('sql_backups/**').select { |f| File.directory? f }
 
 all_files = (directories + ["sql_backups"]).map do |dir|
   Dir.glob("#{dir}/**").select { |f| !File.directory?(f) }
-end.sort
+end.flatten.compact.sort
 ```
 
 ## Sample SQL to create DB backup
