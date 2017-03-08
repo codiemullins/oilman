@@ -51,11 +51,20 @@ The config file uses named keys to support multiple hosts. See sample below for 
   "mount_server": "192.168.14.15",
   "mount_path": "\\\\VBOXSVR\\vagrant\\sql_backups",
 
-  "vagrant": {
+  "waterfield": {
     "username": "sa",
     "password": "#SAPassword!",
     "host": "192.168.50.4",
-    "database": "dev1",
+    "database": "waterfield_dev",
+    "data_dir": "C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\DATA",
+    "log_dir": "C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\DATA"
+  },
+
+  "accruent": {
+    "username": "sa",
+    "password": "#SAPassword!",
+    "host": "192.168.50.4",
+    "database": "accruent_dev",
     "data_dir": "C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\DATA",
     "log_dir": "C:\\Program Files\\Microsoft SQL Server\\MSSQL12.SQLEXPRESS\\MSSQL\\DATA"
   }
