@@ -2,7 +2,6 @@ LIB = File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift(LIB) unless $LOAD_PATH.include?(LIB)
 
 require 'awesome_print'
-require 'dotenv'
 require 'fileutils'
 require 'highline/import'
 require 'open3'
