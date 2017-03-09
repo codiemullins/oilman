@@ -26,8 +26,6 @@ class Oilman
   end
 end
 
-Dotenv.load("#{Oilman.root}/.env")
-
 options = JSON.parse File.read("#{File.dirname(__FILE__)}/../config.json")
 
 Settings = {
