@@ -1,10 +1,11 @@
 class Restore
-  attr_reader :server, :database, :backup, :database_log_name, :user
+  attr_reader :server, :database, :backup, :database_log_name, :user, :db_owner
 
   def initialize server, backup
     @server = server
     @database = server.database
     @user = server.username == 'sql_admin' ? 'gas_plant' : server.username
+    @db_owner = server.db_owner
     @backup = BackupDetail.new server, backup
     @commands = sql.split("GO")
     @length = @commands.length
@@ -37,6 +38,7 @@ class Restore
     IO.read("#{Oilman.root}/lib/sql/restore.sql") % {
       database: database,
       user: user,
+      db_owner: db_owner,
       timestamp: Time.now.strftime('%Y%m%d%H%M%S'),
       backup: backup.name,
       source_mdf: backup.mdf.logical_name,

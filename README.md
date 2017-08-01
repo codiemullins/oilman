@@ -13,7 +13,7 @@ oilman makes it painless and easy to backup and restore a DB from the command li
 
 ### Sample `config.json` file
 
-The config file uses named keys to support multiple hosts. See sample below for example of 3 hosts `sql4`, `we12`, `we70`.
+The config file uses named keys to support multiple hosts. See sample below for example of 3 hosts `sql4`, `we12`, `we70`. Note: A `db_owner` can be specified to set the DB owner to a login different than the specified `username`.
 
 ```json
 {
@@ -21,6 +21,7 @@ The config file uses named keys to support multiple hosts. See sample below for 
   "mount_server": "192.168.14.15",
 
   "sql4": {
+    "db_owner": "gas_plant",
     "username": "we\\codie.mullins",
     "password": "****",
     "host": "192.168.14.60",

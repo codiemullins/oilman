@@ -19,7 +19,7 @@ RESTORE DATABASE [%{database}]
   NOUNLOAD, REPLACE, STATS = 5
 GO
 
-EXEC [%{database}].dbo.sp_changedbowner @loginame = N'%{user}', @map = false
+EXEC [%{database}].dbo.sp_changedbowner @loginame = N'%{db_owner}', @map = false
 GO
 
 ALTER DATABASE %{database} SET MULTI_USER
