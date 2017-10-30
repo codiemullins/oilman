@@ -1,8 +1,8 @@
 class Mounter
-  attr_reader :mount, :path
+  attr_reader :config, :path
 
-  def initialize mount, path = "/"
-    @mount = mount
+  def initialize config, path = "/"
+    @config = config
     @path = path
   end
 
@@ -31,9 +31,9 @@ class Mounter
   private
 
   def connection_string
-    prefix = mount[:domain] ? "//#{mount[:domain]}\;" : '//'
-    user_password = mount[:password] ? "#{mount[:user]}:#{mount[:password]}" : mount[:user]
-    "#{prefix}#{user_password}@#{mount[:server]}#{path}"
+    prefix = config[:domain] ? "//#{config[:domain]}\;" : '//'
+    user_password = config[:password] ? "#{config[:user]}:#{config[:password]}" : config[:user]
+    "#{prefix}#{user_password}@#{config[:server]}#{path}"
   end
 
   def mount_command path
