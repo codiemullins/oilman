@@ -6,7 +6,7 @@ class CommandLine
     @filter = filter
     @filename = filename
     @path = Settings[:mount][:local_path]
-    Mounter.new(Settings[:mount][:user], Settings[:mount][:server], "/SQL-Server_Backups").mount path
+    Mounter.new(Settings[:mount], "/SQL-Server_Backups").mount path
   end
 
   def run

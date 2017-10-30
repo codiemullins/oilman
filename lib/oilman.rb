@@ -31,7 +31,9 @@ options = JSON.parse File.read("#{File.dirname(__FILE__)}/../config.json")
 Settings = {
   verbose: false,
   mount: {
+    domain: options['mount_domain'],
     user: options['mount_user'],
+    password: options['mount_password'],
     server: options['mount_server'],
     remote_path: options['mount_path'] || 'X:',
     local_path: "#{Oilman.root}/sql_backups",

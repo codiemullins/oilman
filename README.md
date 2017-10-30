@@ -17,8 +17,10 @@ The config file uses named keys to support multiple hosts. See sample below for 
 
 ```json
 {
-  "mount_user": "GUEST:",
-  "mount_server": "192.168.14.15",
+  "mount_domain": "we",
+  "mount_user": "YOUR_USER",
+  "mount_password": "YOUR_PASSWORD",
+  "mount_server": "readynas2.we.local/backups",
 
   "sql4": {
     "db_owner": "gas_plant",
@@ -81,7 +83,7 @@ Commands:
   oilman restore SERVER          # restore database .bak file to your chosen SERVER target DB
 
 Options:
-  [--verbose], [--no-verbose]  
+  [--verbose], [--no-verbose]
 ```
 
 ## Creating DB Backup
